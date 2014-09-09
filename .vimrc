@@ -55,6 +55,8 @@ NeoBundle "sjl/gundo.vim"
 NeoBundle "rking/ag.vim"
 NeoBundle "Chiel92/vim-autoformat"
 NeoBundle "kchmck/vim-coffee-script"
+NeoBundle "vim-scripts/actionscript.vim--Leider"
+NeoBundle "vim-scripts/ActionScript-3-Omnicomplete"
 
 call neobundle#end()
 
@@ -304,3 +306,8 @@ function OnCoffeeScript()
 endfunction
 
 autocmd BufRead,BufNewFile *.coffee call OnCoffeeScript()
+
+
+" ****** actionscript files
+autocmd BufRead,BufNewFile *.as set filetype=actionscript
+let tlist_actionscript_settings = 'actionscript;c:class;f:method;p:property;v:variable'
