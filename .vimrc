@@ -1,8 +1,10 @@
-if has('vim_starting')
-	set nocompatible               " Be iMproved
+let mapleader = "\\"
 
-	" Required:
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
+if has('vim_starting')
+    set nocompatible               " Be iMproved
+
+    " Required:
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 " Required:
@@ -18,13 +20,13 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle "shougo/unite.vim"
 NeoBundle 'Shougo/vimproc.vim', {
-			\ 'build' : {
-			\     'windows' : 'tools\\update-dll-mingw',
-			\     'cygwin' : 'make -f make_cygwin.mak',
-			\     'mac' : 'make -f make_mac.mak',
-			\     'unix' : 'make -f make_unix.mak',
-			\    },
-			\ }
+            \ 'build' : {
+            \     'windows' : 'tools\\update-dll-mingw',
+            \     'cygwin' : 'make -f make_cygwin.mak',
+            \     'mac' : 'make -f make_mac.mak',
+            \     'unix' : 'make -f make_unix.mak',
+            \    },
+            \ }
 NeoBundle "shougo/neocomplete.vim"
 NeoBundle "rizzatti/dash.vim"
 NeoBundle "kien/rainbow_parentheses.vim"
@@ -47,6 +49,8 @@ NeoBundle "sickill/vim-pasta"
 NeoBundle "kana/vim-textobj-user"
 NeoBundle "kana/vim-textobj-syntax"
 NeoBundle "terryma/vim-expand-region"
+NeoBundle "Yggdroot/indentLine"
+NeoBundle "bronson/vim-trailing-whitespace"
 
 
 call neobundle#end()
@@ -60,17 +64,21 @@ NeoBundleCheck
 
 
 if has("gui_running")
-	if has("gui_gtk2")
-		set guifont=Inconsolata\ 12
-	elseif has("gui_macvim")
-		set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
-	elseif has("gui_win32")
-		set guifont=Consolas:h11:cANSI
-	endif
+    if has("gui_gtk2")
+        set guifont=Inconsolata\ 12
+    elseif has("gui_macvim")
+        set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+    elseif has("gui_win32")
+        set guifont=Consolas:h11:cANSI
+    endif
 
     syntax enable
     set background=dark
     colorscheme solarized
+
+    "Save and return to Normal Mode
+    iunmenu File.Save
+    imenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>
 endif
 
 " base editor configs
@@ -109,6 +117,15 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+
+" ------ tpope/vim-fugative
+" Go to the Commit for a tree or blob with C
+autocmd User fugitive
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
+
+autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " ------ bling/vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -175,3 +192,65 @@ vmap <Leader>z :GundoToggle<CR>
 let g:move_key_modifier = 'C'
 
 " ------ sickill/vim-pasta
+
+" ------ kien/ctrlp.vim
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files --exclude-standard']
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_root_markers = ['.ctrlp']
+
+" ------ Yggdroot/indentLine
+let g:indentLine_char = '┆'
+
+" ------ rizzatti/dash.vim
+set keywordprg=dash
+:nmap <silent> K <Plug>DashSearch
+
+let g:dash_map = {
+        \ 'ruby'       : 'rails',
+        \ 'python'     : 'python2',
+        \ 'javascript' : 'backbone',
+        \ 'cs'         : 'net'
+        \ }
+
+" ------ scrooloose/nerdtree
+nmap <leader>l :NERDTreeFind<cr>
+nmap <leader>nt :NERDTreeToggle<cr>
+let NERDTreeWinSize=40
+let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$']
+
+" ------ MartinLafreniere/vim-PairTools
+" Enable modules
+let g:pairtools_coffee_pairclamp = 1
+let g:pairtools_coffee_tagwrench = 0
+let g:pairtools_coffee_jigsaw = 1
+
+" Configure PairClamp
+let g:pairtools_coffee_autoclose = 1
+let g:pairtools_coffee_forcepairs = 0
+let g:pairtools_coffee_closepairs = "(:),[:],{:},':',\":\""
+let g:pairtools_coffee_smartclose = 1
+let g:pairtools_coffee_smartcloserules = '\w'
+let g:pairtools_coffee_apostrophe = 0
+let g:pairtools_coffee_antimagic = 1
+let g:pairtools_coffee_antimagicfield = "Comment"
+let g:pairtools_coffee_pcexpander = 1
+let g:pairtools_coffee_pceraser = 1
+
+" Configure TagWrench
+let g:pairtools_coffee_tagwrenchhook = 'tagwrench#BuiltinNoHook'
+let g:pairtools_coffee_twexpander = 0
+let g:pairtools_coffee_tweraser = 0
+
+" ------ scrooloose/syntastic
+let g:syntastic_auto_jump=0
+let g:syntastic_check_on_open=1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:syntastic_auto_loc_list=2
+let g:syntastic_echo_current_error=1
+
+let g:syntastic_error_symbol='✗>'
+let g:syntastic_warning_symbol='⚠>'
+
+let g:syntastic_mode_map = { 'mode': 'active',
+            \ "active_filetypes": [],
+            \ "passive_filetypes": ['handlebars'] }
