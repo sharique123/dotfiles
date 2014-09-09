@@ -51,7 +51,10 @@ NeoBundle "kana/vim-textobj-syntax"
 NeoBundle "terryma/vim-expand-region"
 NeoBundle "Yggdroot/indentLine"
 NeoBundle "bronson/vim-trailing-whitespace"
-
+NeoBundle "sjl/gundo.vim"
+NeoBundle "rking/ag.vim"
+NeoBundle "Chiel92/vim-autoformat"
+NeoBundle "kchmck/vim-coffee-script"
 
 call neobundle#end()
 
@@ -65,11 +68,11 @@ NeoBundleCheck
 
 if has("gui_running")
     if has("gui_gtk2")
-        set guifont=Inconsolata\ 12
+        set guifont=Inconsolata\ 14
     elseif has("gui_macvim")
         set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
     elseif has("gui_win32")
-        set guifont=Consolas:h11:cANSI
+        set guifont=Consolas:h14:cANSI
     endif
 
     syntax enable
@@ -89,6 +92,9 @@ set expandtab
 
 set cursorline
 set colorcolumn=80,120
+
+set relativenumber
+set number
 
 set sessionoptions-=tabpages
 set sessionoptions-=help
@@ -121,9 +127,9 @@ noremap <Right> <NOP>
 " ------ tpope/vim-fugative
 " Go to the Commit for a tree or blob with C
 autocmd User fugitive
-  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-  \   nnoremap <buffer> .. :edit %:h<CR> |
-  \ endif
+            \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+            \   nnoremap <buffer> .. :edit %:h<CR> |
+            \ endif
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
@@ -206,11 +212,11 @@ set keywordprg=dash
 :nmap <silent> K <Plug>DashSearch
 
 let g:dash_map = {
-        \ 'ruby'       : 'rails',
-        \ 'python'     : 'python2',
-        \ 'javascript' : 'backbone',
-        \ 'cs'         : 'net'
-        \ }
+            \ 'ruby'       : 'rails',
+            \ 'python'     : 'python2',
+            \ 'javascript' : 'backbone',
+            \ 'cs'         : 'net'
+            \ }
 
 " ------ scrooloose/nerdtree
 nmap <leader>l :NERDTreeFind<cr>
@@ -219,12 +225,9 @@ let NERDTreeWinSize=40
 let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$']
 
 " ------ MartinLafreniere/vim-PairTools
-" Enable modules
 let g:pairtools_coffee_pairclamp = 1
 let g:pairtools_coffee_tagwrench = 0
 let g:pairtools_coffee_jigsaw = 1
-
-" Configure PairClamp
 let g:pairtools_coffee_autoclose = 1
 let g:pairtools_coffee_forcepairs = 0
 let g:pairtools_coffee_closepairs = "(:),[:],{:},':',\":\""
@@ -235,17 +238,16 @@ let g:pairtools_coffee_antimagic = 1
 let g:pairtools_coffee_antimagicfield = "Comment"
 let g:pairtools_coffee_pcexpander = 1
 let g:pairtools_coffee_pceraser = 1
-
-" Configure TagWrench
 let g:pairtools_coffee_tagwrenchhook = 'tagwrench#BuiltinNoHook'
 let g:pairtools_coffee_twexpander = 0
 let g:pairtools_coffee_tweraser = 0
 
+"
 " ------ scrooloose/syntastic
-let g:syntastic_auto_jump=0
+let g:syntastic_auto_jump=2
 let g:syntastic_check_on_open=1
 let g:syntastic_quiet_messages = {'level': 'warnings'}
-let g:syntastic_auto_loc_list=2
+let g:syntastic_auto_loc_list=1
 let g:syntastic_echo_current_error=1
 
 let g:syntastic_error_symbol='✗>'
@@ -254,3 +256,51 @@ let g:syntastic_warning_symbol='⚠>'
 let g:syntastic_mode_map = { 'mode': 'active',
             \ "active_filetypes": [],
             \ "passive_filetypes": ['handlebars'] }
+
+"let g:syntastic_coffee_coffeelint_post_args = '--csv --file ~/coffeelint.json'
+
+
+" ------ sjl/gundo.vim
+nmap <Leader>z :GundoToggle<CR>
+vmap <Leader>z :GundoToggle<CR>
+
+
+" ------ Chiel92/vim-autoformat
+noremap <Leader>f :Autoformat<CR><CR>
+
+
+
+
+
+" ****** coffescript files
+function OnCoffeeScript()
+    setlocal tabstop=2
+    setlocal shiftwidth=2
+    setlocal softtabstop=2
+
+    setlocal foldmethod=indent
+    setlocal nofoldenable
+    setlocal expandtab
+
+    setlocal colorcolumn=120
+    setlocal nobomb
+
+    setlocal omnifunc=syntaxcomplete#Complete
+
+    if expand("%:p") =~ ".spec.coffee$"
+        setlocal filetype=coffee.mocha
+        map <buffer> <M-s> :w<kEnter>:call RunSpecificTestsInScreen()<CR>
+        imap <buffer> <M-s> <Esc>:w<kEnter>:call RunSpecificTestsInScreen()<CR>
+    endif
+
+    " spec-runner
+    map <buffer> <leader>T :call RunAllTestsInScreen()<CR>
+    map <buffer> <leader>t :call RunLocalTestsInScreen()<CR>
+    map <buffer> <leader>t. :call RunSpecificTestsInScreen()<CR>
+    map <buffer> <leader>D :call DebugAllTestsInScreen()<CR>
+    map <buffer> <leader>d :call DebugLocalTestsInScreen()<CR>
+    map <buffer> <leader>d. :call DebugSpecificTestsInScreen()<CR>
+    map <buffer> <leader>tl :call RunLastTestsInScreen()<CR>
+endfunction
+
+autocmd BufRead,BufNewFile *.coffee call OnCoffeeScript()
