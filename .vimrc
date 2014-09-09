@@ -38,6 +38,7 @@ NeoBundle "bling/vim-airline"
 NeoBundle 'bling/vim-bufferline'
 NeoBundle "tpope/vim-fugitive"
 NeoBundle "tpope/vim-surround"
+NeoBundle "tpope/vim-dispatch"
 NeoBundle "kien/ctrlp.vim"
 NeoBundle "majutsushi/tagbar"
 NeoBundle "airblade/vim-gitgutter"
@@ -57,6 +58,7 @@ NeoBundle "Chiel92/vim-autoformat"
 NeoBundle "kchmck/vim-coffee-script"
 NeoBundle "vim-scripts/actionscript.vim--Leider"
 NeoBundle "vim-scripts/ActionScript-3-Omnicomplete"
+NeoBundle "szw/vim-tags"
 
 call neobundle#end()
 
@@ -70,11 +72,11 @@ NeoBundleCheck
 
 if has("gui_running")
     if has("gui_gtk2")
-        set guifont=Inconsolata\ 14
+        set guifont=Inconsolata\ 15
     elseif has("gui_macvim")
-        set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+        set guifont=Droid\ Sans\ Mono\ for\ Powerline:h15
     elseif has("gui_win32")
-        set guifont=Consolas:h14:cANSI
+        set guifont=Consolas:h15:cANSI
     endif
 
     syntax enable
@@ -269,6 +271,9 @@ vmap <Leader>z :GundoToggle<CR>
 
 " ------ Chiel92/vim-autoformat
 noremap <Leader>f :Autoformat<CR><CR>
+
+
+" ------ szw/vim-tags
 
 
 
