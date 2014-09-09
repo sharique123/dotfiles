@@ -44,8 +44,8 @@ NeoBundle "godlygeek/tabular"
 NeoBundle "kossnocorp/janitor.vim"
 NeoBundle "matze/vim-move"
 NeoBundle "sickill/vim-pasta"
-NeoBundle "vim-textobj-user"
-NeoBundle "vim-textobj-syntax"
+NeoBundle "kana/vim-textobj-user"
+NeoBundle "kana/vim-textobj-syntax"
 NeoBundle "terryma/vim-expand-region"
 
 
