@@ -28,6 +28,8 @@ NeoBundle 'Shougo/vimproc.vim', {
             \    },
             \ }
 NeoBundle "shougo/neocomplete.vim"
+NeoBundle "shougo/neosnippet.vim"
+NeoBundle "shougo/neosnippet-snippets"
 NeoBundle "rizzatti/dash.vim"
 NeoBundle "kien/rainbow_parentheses.vim"
 NeoBundle "scrooloose/nerdtree"
@@ -35,7 +37,6 @@ NeoBundle "scrooloose/nerdcommenter"
 NeoBundle "scrooloose/syntastic"
 NeoBundle "altercation/vim-colors-solarized"
 NeoBundle "bling/vim-airline"
-NeoBundle 'bling/vim-bufferline'
 NeoBundle "tpope/vim-fugitive"
 NeoBundle "tpope/vim-surround"
 NeoBundle "tpope/vim-dispatch"
@@ -60,7 +61,6 @@ NeoBundle "vim-scripts/actionscript.vim--Leider"
 NeoBundle "vim-scripts/ActionScript-3-Omnicomplete"
 NeoBundle "szw/vim-tags"
 NeoBundle "ap/vim-css-color"
-NeoBundle "Xuyuanp/nerdtree-git-plugin"
 
 call neobundle#end()
 
@@ -109,13 +109,16 @@ let g:session_autoload = 0
 
 set t_Co=256
 set splitbelow
-set ttimeoutlen=100
+set splitright
+set ttimeoutlen=50
+
+set wildchar=<Tab> wildmenu wildmode=full
+set ignorecase
+set magic
 
 " Mapping <c-l> to clear highlighting and redraw
 nnoremap <C-L> :nohls<CR><C-L>
 inoremap <C-L> <C-O>:nohls<CR>
-
-nnoremap <silent> ~ :<C-u>call ToggleCase()<CR>
 
 "<esc> to clear search markers
 nnoremap <esc> :noh<return><esc>
@@ -138,6 +141,9 @@ autocmd User fugitive
             \ endif
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
+
+" ------ majutsushi/tagbar
+noremap <silent><Leader>tb :Tagbar<CR>
 
 " ------ bling/vim-airline
 let g:airline#extensions#tabline#enabled = 1
