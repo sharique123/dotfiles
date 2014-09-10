@@ -59,6 +59,7 @@ NeoBundle "kchmck/vim-coffee-script"
 NeoBundle "vim-scripts/actionscript.vim--Leider"
 NeoBundle "vim-scripts/ActionScript-3-Omnicomplete"
 NeoBundle "szw/vim-tags"
+NeoBundle "ap/vim-css-color"
 
 call neobundle#end()
 
