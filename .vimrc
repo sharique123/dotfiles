@@ -60,6 +60,7 @@ NeoBundle "vim-scripts/actionscript.vim--Leider"
 NeoBundle "vim-scripts/ActionScript-3-Omnicomplete"
 NeoBundle "szw/vim-tags"
 NeoBundle "ap/vim-css-color"
+NeoBundle "Xuyuanp/nerdtree-git-plugin"
 
 call neobundle#end()
 
