@@ -262,7 +262,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
             \ "passive_filetypes": ['handlebars'] }
 
 "let g:syntastic_coffee_coffeelint_post_args = '--csv --file ~/coffeelint.json'
-
+let g:syntastic_actionscript_mxmlc_compiler = '/Applications/Apache\ Flex/bin/mxmlc'
 
 " ------ sjl/gundo.vim
 nmap <Leader>z :GundoToggle<CR>
