@@ -1,0 +1,82 @@
+[user]
+	email = brendanjerwin@gmail.com
+	name = Brendan Erwin
+[core]
+	autocrlf = input
+	editor = vim
+	excludesfile = /Users/brendanjerwin/.gitignore_global
+[color]
+	status = auto
+	branch = auto
+	diff = auto
+	ui = always
+[github]
+	user = brendanjerwin
+	token = 6d535824c6469e9d40265fc6104244a8
+[alias]
+	unstage = reset HEAD --
+	addrm = "!addremove() { git add -u . ; git add . ; }; addremove"
+	staged = ‘diff
+	retrack = "!retrack() { git config \"branch.$1.remote\" $(dirname \"$2\"); git config \"branch.$1.merge\" \"refs/heads/$(basename \"$2\")\"; }; retrack"
+	branches = branch-time
+	slog = log -n 10 --format=format:'%Creset%an %Cgreen%ar:%Creset%s %Cred%h'
+    co = checkout
+    # Log display from screencast, with train tracks.
+    l = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
+    current-branch = !git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
+    # Usage: git track origin/feature-123-login-form
+    track = checkout -t
+	gl = git smart-log
+	remotes = remote -v
+	s = status --short
+	c- = checkout -
+    ribbon = tag --force _ribbon origin/master
+    catchup = log --patch --reverse --topo-order _ribbon..origin/master
+	commit = c
+	ci = commit -i .
+
+[rerere]
+	enabled = 1
+[branch]
+	autosetupmerge = true
+[help]
+	autocorrect = 1
+[mergetool "p4merge"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge -dw \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+[pivotal]
+	api-token = 30813b0353eb2e73aa7e95246841fe98
+	full-name = Brendan Erwin
+	only-mine = true
+	append-name = true
+	interactive = 1
+	delete-branch = 1
+	verbose = 1
+[credential]
+    helper = osxkeychain
+[mergetool "fugitive"]
+    cmd = mvim -f -c \"Gdiff\" \"$MERGED\"
+[difftool "mvim"]
+    cmd = mvim -f -d \"$LOCAL\" \"$REMOTE\"
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = simple
+[filter "coffee-debugger"]
+    clean = perl -p -i -e 's/^\\s*debugger$//' %f
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+[diff]
+	tool = Kaleidoscope
+[difftool]
+	prompt = false
+[mergetool]
+	prompt = false
+[merge]
+	tool = Kaleidoscope
