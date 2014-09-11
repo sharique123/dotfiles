@@ -346,7 +346,10 @@ function CleanActionScript()
     silent! %s/}\s*\n\s*catch/} catch/pg
 
     silent! %s/function\(.*\)\n\s*{/function\1 {/pg
+
+    " remove useless heading comments
     silent! %s/\/\**\n\s*\* Function.*\n\s*\**\///pg
+    silent! %s/\/\**\n\s*\* Class.*\n\s*\**\///pg
 
     call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
     call setpos('.', l:save_cursor)
