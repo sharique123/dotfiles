@@ -241,7 +241,8 @@ let g:dash_map = {
 nmap <leader>l :NERDTreeFind<cr>
 nmap <leader>nt :NERDTreeToggle<cr>
 let NERDTreeWinSize=40
-let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$']
+let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$', '\.orig$']
+let NERDTreeQuitOnOpen = 1
 
 " ------ MartinLafreniere/vim-PairTools
 let g:pairtools_coffee_pairclamp = 1
