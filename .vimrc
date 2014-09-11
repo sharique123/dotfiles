@@ -337,6 +337,12 @@ autocmd BufRead,BufNewFile *.as map <buffer> <leader>f :call CleanActionScript()
 function CleanActionScript()
     let l:save_cursor = getpos('.')
 
+    "if(true )doSomething( param )
+    silent! %s/\s*(/(/pg
+    silent! %s/(\s/(/pg
+    silent! %s/\s)/)/pg
+    silent! %s/if(\s*\([^)]*\))\s*/if (\1) /pg
+
     silent! %s/)\s*\n\s*{/) {/pg
     silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
     silent! %s/}\s*\n\s*else if (/} else if (/pg
