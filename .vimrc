@@ -18,6 +18,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
 
+NeoBundle "tpope/vim-sensible"
 NeoBundle "shougo/unite.vim"
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
@@ -95,6 +96,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+set list
 
 set cursorline
 set colorcolumn=80,120
@@ -105,6 +107,10 @@ set number
 set sessionoptions-=tabpages
 set sessionoptions-=help
 
+set autoindent
+set smartindent
+set smarttab
+
 let g:session_autoload = 0
 
 set t_Co=256
@@ -113,8 +119,9 @@ set splitright
 set ttimeoutlen=50
 
 set wildchar=<Tab> wildmenu wildmode=full
-set ignorecase
+set smartcase
 set magic
+set hlsearch
 
 " Mapping <c-l> to clear highlighting and redraw
 nnoremap <C-L> :nohls<CR><C-L>
@@ -143,7 +150,7 @@ autocmd User fugitive
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " ------ majutsushi/tagbar
-noremap <silent><Leader>tb :Tagbar<CR>
+noremap <silent><leader>tb :Tagbar<CR>
 
 " ------ bling/vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -194,17 +201,17 @@ autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " ------ godlygeek/tabular
-nmap <Leader>a= :Tabularize /=<CR>
-vmap <Leader>a= :Tabularize /=<CR>
-nmap <Leader>a: :Tabularize /:[^\n]/l0r0<CR>
-vmap <Leader>a: :Tabularize /:[^\n]/l0r0<CR>
-nmap <Leader>a, :Tabularize /,/<CR>
-vmap <Leader>a, :Tabularize /,/<CR>
-nmap <Leader>a-> :Tabularize /->[^\n]/l1r0<CR>
-vmap <Leader>a-> :Tabularize /->[^\n]/l1r0<CR>
+nmap <leader>a= :Tabularize /=<CR>
+vmap <leader>a= :Tabularize /=<CR>
+nmap <leader>a: :Tabularize /:[^\n]/l0r0<CR>
+vmap <leader>a: :Tabularize /:[^\n]/l0r0<CR>
+nmap <leader>a, :Tabularize /,/<CR>
+vmap <leader>a, :Tabularize /,/<CR>
+nmap <leader>a-> :Tabularize /->[^\n]/l1r0<CR>
+vmap <leader>a-> :Tabularize /->[^\n]/l1r0<CR>
 
-nmap <Leader>z :GundoToggle<CR>
-vmap <Leader>z :GundoToggle<CR>
+nmap <leader>z :GundoToggle<CR>
+vmap <leader>z :GundoToggle<CR>
 
 " ------ matze/vim-move
 let g:move_key_modifier = 'C'
@@ -273,12 +280,12 @@ let g:syntastic_mode_map = { 'mode': 'active',
 let g:syntastic_actionscript_mxmlc_compiler = '/Applications/Apache\ Flex/bin/mxmlc'
 
 " ------ sjl/gundo.vim
-nmap <Leader>z :GundoToggle<CR>
-vmap <Leader>z :GundoToggle<CR>
+nmap <leader>z :GundoToggle<CR>
+vmap <leader>z :GundoToggle<CR>
 
 
 " ------ Chiel92/vim-autoformat
-noremap <Leader>f :Autoformat<CR><CR>
+noremap <leader>f :Autoformat<CR><CR>
 
 
 " ------ szw/vim-tags
@@ -324,3 +331,24 @@ autocmd BufRead,BufNewFile *.coffee call OnCoffeeScript()
 " ****** actionscript files
 autocmd BufRead,BufNewFile *.as set filetype=actionscript
 let tlist_actionscript_settings = 'actionscript;c:class;f:method;p:property;v:variable'
+
+autocmd BufRead,BufNewFile *.as map <buffer> <leader>f :call CleanActionScript()<CR>
+function CleanActionScript()
+    let l:save_cursor = getpos('.')
+
+    silent! %s/)\s*\n\s*{/) {/pg
+    silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
+    silent! %s/}\s*\n\s*else if (/} else if (/pg
+    silent! %s/}else/} else/pg
+    silent! %s/else{/else {/pg
+
+    silent! %s/try\s*\n\s*{/try {/pg
+    silent! %s/}\s*\n\s*catch/} catch/pg
+
+    silent! %s/function\(.*\)\n\s*{/function\1 {/pg
+    silent! %s/\/\**\n\s*\* Function.*\n\s*\**\///pg
+
+    call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
+    call setpos('.', l:save_cursor)
+    Autoformat()
+endfunction
