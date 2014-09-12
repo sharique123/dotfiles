@@ -18,8 +18,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
 
-NeoBundle "tpope/vim-sensible"
-NeoBundle "shougo/unite.vim"
+NeoBundle 'tpope/vim-sensible'
+NeoBundle 'shougo/unite.vim'
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
             \     'windows' : 'tools\\update-dll-mingw',
@@ -28,40 +28,43 @@ NeoBundle 'Shougo/vimproc.vim', {
             \     'unix' : 'make -f make_unix.mak',
             \    },
             \ }
-NeoBundle "shougo/neocomplete.vim"
-NeoBundle "shougo/neosnippet.vim"
-NeoBundle "shougo/neosnippet-snippets"
-NeoBundle "rizzatti/dash.vim"
-NeoBundle "kien/rainbow_parentheses.vim"
-NeoBundle "scrooloose/nerdtree"
-NeoBundle "scrooloose/nerdcommenter"
-NeoBundle "scrooloose/syntastic"
-NeoBundle "altercation/vim-colors-solarized"
-NeoBundle "bling/vim-airline"
-NeoBundle "tpope/vim-fugitive"
-NeoBundle "tpope/vim-surround"
-NeoBundle "tpope/vim-dispatch"
-NeoBundle "kien/ctrlp.vim"
-NeoBundle "majutsushi/tagbar"
-NeoBundle "airblade/vim-gitgutter"
-NeoBundle "MartinLafreniere/vim-PairTools"
-NeoBundle "godlygeek/tabular"
-NeoBundle "kossnocorp/janitor.vim"
-NeoBundle "matze/vim-move"
-NeoBundle "sickill/vim-pasta"
-NeoBundle "kana/vim-textobj-user"
-NeoBundle "kana/vim-textobj-syntax"
-NeoBundle "terryma/vim-expand-region"
-NeoBundle "Yggdroot/indentLine"
-NeoBundle "bronson/vim-trailing-whitespace"
-NeoBundle "sjl/gundo.vim"
-NeoBundle "rking/ag.vim"
-NeoBundle "Chiel92/vim-autoformat"
-NeoBundle "kchmck/vim-coffee-script"
-NeoBundle "vim-scripts/actionscript.vim--Leider"
-NeoBundle "vim-scripts/ActionScript-3-Omnicomplete"
-NeoBundle "szw/vim-tags"
-NeoBundle "ap/vim-css-color"
+NeoBundle 'shougo/neocomplete.vim'
+NeoBundle 'shougo/neosnippet.vim'
+NeoBundle 'shougo/neosnippet-snippets'
+NeoBundle 'rizzatti/dash.vim'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-dispatch'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'MartinLafreniere/vim-PairTools'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'kossnocorp/janitor.vim'
+NeoBundle 'matze/vim-move'
+NeoBundle 'sickill/vim-pasta'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-syntax'
+NeoBundle 'terryma/vim-expand-region'
+NeoBundle 'Yggdroot/indentLine'
+NeoBundle 'bronson/vim-trailing-whitespace'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'Chiel92/vim-autoformat'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'vim-scripts/actionscript.vim--Leider'
+NeoBundle 'vim-scripts/ActionScript-3-Omnicomplete'
+NeoBundle 'szw/vim-tags'
+NeoBundle 'ap/vim-css-color'
+NeoBundle 'spolu/dwm.vim'
+NeoBundle 'vim-scripts/matchit.zip'
 
 call neobundle#end()
 
@@ -77,7 +80,8 @@ if has("gui_running")
     if has("gui_gtk2")
         set guifont=Inconsolata\ 15
     elseif has("gui_macvim")
-        set guifont=Droid\ Sans\ Mono\ for\ Powerline:h15
+        set guifont=Menlo\ for\ Powerline:h15
+        macmenu &File.New\ Tab key=<nop>
     elseif has("gui_win32")
         set guifont=Consolas:h15:cANSI
     endif
@@ -97,6 +101,8 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 set list
+set nobackup
+set noswapfile
 
 set cursorline
 set colorcolumn=80,120
@@ -139,6 +145,35 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+
+" ------ shougo/unite.vim
+nnoremap <D-F> :Unite grep:.<cr>
+
+let g:unite_source_history_yank_enable = 1
+nnoremap <leader>y :<C-u>Unite history/yank<CR>
+
+let g:unite_source_grep_max_candidates = 200
+
+if executable('ag')
+  " Use ag in unite grep source.
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts =
+  \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('pt')
+  " Use pt in unite grep source.
+  " https://github.com/monochromegane/the_platinum_searcher
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack-grep')
+  " Use ack in unite grep source.
+  let g:unite_source_grep_command = 'ack-grep'
+  let g:unite_source_grep_default_opts =
+  \ '-i --no-heading --no-color -k -H'
+  let g:unite_source_grep_recursive_opt = ''
+endif
 
 " ------ tpope/vim-fugative
 " Go to the Commit for a tree or blob with C
@@ -290,8 +325,28 @@ noremap <leader>f :Autoformat<CR><CR>
 
 
 " ------ szw/vim-tags
+let g:vim_tags_auto_generate = 1
+let g:vim_tags_ctags_binary = '/usr/local/bin/ctags'
+let g:vim_tags_use_vim_dispatch = 1
 
+" ------ shougo/neosnippet
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
 
 
 
