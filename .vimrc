@@ -7,6 +7,13 @@ if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
+" ------ vim-easytags
+let g:easytags_cmd = '/usr/local/bin/ctags'
+let g:easytags_async = 1
+let g:easytags_syntax_keyword = 'always'
+let g:easytags_dynamic_files = 2
+let g:easytags_include_members = 1
+
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
 
@@ -61,7 +68,8 @@ NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'vim-scripts/actionscript.vim--Leider'
 NeoBundle 'vim-scripts/ActionScript-3-Omnicomplete'
-NeoBundle 'szw/vim-tags'
+NeoBundle 'xolox/vim-easytags'
+NeoBundle 'xolox/vim-misc'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'vim-scripts/matchit.zip'
@@ -186,6 +194,7 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " ------ majutsushi/tagbar
 noremap <silent><leader>tb :Tagbar<CR>
+
 
 " ------ bling/vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -328,6 +337,7 @@ noremap <leader>f :Autoformat<CR><CR>
 let g:vim_tags_auto_generate = 1
 let g:vim_tags_ctags_binary = '/usr/local/bin/ctags'
 let g:vim_tags_use_vim_dispatch = 1
+
 
 " ------ shougo/neosnippet
 " Plugin key-mappings.
