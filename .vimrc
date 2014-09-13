@@ -73,6 +73,7 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'vim-scripts/matchit.zip'
+NeoBundle 'terryma/vim-multiple-cursors'
 
 call neobundle#end()
 
@@ -82,7 +83,6 @@ filetype plugin indent on
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 NeoBundleCheck
-
 
 if has("gui_running")
     if has("gui_gtk2")
