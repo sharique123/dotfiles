@@ -74,6 +74,7 @@ NeoBundle 'ap/vim-css-color'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'vim-scripts/matchit.zip'
 NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'kshenoy/vim-signature'
 
 call neobundle#end()
 
