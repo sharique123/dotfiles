@@ -7,13 +7,6 @@ if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-" ------ vim-easytags
-let g:easytags_cmd = '/usr/local/bin/ctags'
-let g:easytags_async = 1
-let g:easytags_syntax_keyword = 'always'
-let g:easytags_dynamic_files = 2
-let g:easytags_include_members = 1
-
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
 
@@ -40,7 +33,9 @@ NeoBundle 'shougo/neosnippet.vim'
 NeoBundle 'shougo/neosnippet-snippets'
 NeoBundle 'rizzatti/dash.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'scrooloose/nerdtree'
+if !has("gui_vimr")
+    NeoBundle 'scrooloose/nerdtree'
+endif
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'altercation/vim-colors-solarized'
@@ -50,13 +45,12 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'majutsushi/tagbar'
+NeoBundle 'FelikZ/ctrlp-py-matcher'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'MartinLafreniere/vim-PairTools'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'kossnocorp/janitor.vim'
 NeoBundle 'matze/vim-move'
-NeoBundle 'sickill/vim-pasta'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-syntax'
 NeoBundle 'terryma/vim-expand-region'
@@ -68,13 +62,13 @@ NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'vim-scripts/actionscript.vim--Leider'
 NeoBundle 'vim-scripts/ActionScript-3-Omnicomplete'
-NeoBundle 'xolox/vim-easytags'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'vim-scripts/matchit.zip'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'svermeulen/vim-easyclip'
 
 call neobundle#end()
 
@@ -90,18 +84,11 @@ if has("gui_running")
         set guifont=Inconsolata\ 15
     elseif has("gui_macvim")
         set guifont=Menlo\ for\ Powerline:h15
-        macmenu &File.New\ Tab key=<nop>
+    elseif if has("gui_vimr")
+        set guifont=Menlo\ for\ Powerline:h15
     elseif has("gui_win32")
         set guifont=Consolas:h15:cANSI
     endif
-
-    syntax enable
-    set background=dark
-    colorscheme solarized
-
-    "Save and return to Normal Mode
-    iunmenu File.Save
-    imenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>
 endif
 
 " base editor configs
@@ -193,10 +180,6 @@ autocmd User fugitive
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
-" ------ majutsushi/tagbar
-noremap <silent><leader>tb :Tagbar<CR>
-
-
 " ------ bling/vim-airline
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
@@ -261,12 +244,40 @@ vmap <leader>z :GundoToggle<CR>
 " ------ matze/vim-move
 let g:move_key_modifier = 'C'
 
-" ------ sickill/vim-pasta
+" ------ ssvermeulen/vim-easyclip
+let g:EasyClipAutoFormat = 1
+let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
+
+let g:EasyClipUseCutDefaults = 0
+nmap x <Plug>MoveMotionPlug
+xmap x <Plug>MoveMotionXPlug
+nmap xx <Plug>MoveMotionLinePlug
 
 " ------ kien/ctrlp.vim
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files --exclude-standard']
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore "**/*.pyc"
+      \ -g ""'
+"let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files --exclude-standard']
+let g:ctrlp_lazy_update = 350
+let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_root_markers = ['.ctrlp']
+if !has('python')
+    echo 'In order to use pymatcher plugin, you need +python compiled vim'
+else
+    let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+endif
+let g:ctrlp_extensions = ['buffertag', 'quickfix']
+let g:ctrlp_buftag_ctags_bin = '/usr/local/bin/ctags'
+let g:ctrlp_buftag_types = {
+            \ 'actionscript' : '--language-force=actionscript'
+            \ }
+
+nmap <c-t> :CtrlPBufTag<CR>
 
 " ------ Yggdroot/indentLine
 let g:indentLine_char = '┆'
@@ -283,11 +294,13 @@ let g:dash_map = {
             \ }
 
 " ------ scrooloose/nerdtree
-nmap <leader>l :NERDTreeFind<cr>
-nmap <leader>nt :NERDTreeToggle<cr>
-let NERDTreeWinSize=40
-let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$', '\.orig$']
-let NERDTreeQuitOnOpen = 1
+if !has("gui_vimr")
+    nmap <leader>l :NERDTreeFind<cr>
+    nmap <leader>nt :NERDTreeToggle<cr>
+    let NERDTreeWinSize=40
+    let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$', '\.orig$']
+    let NERDTreeQuitOnOpen = 1
+endif
 
 " ------ MartinLafreniere/vim-PairTools
 let g:pairtools_coffee_pairclamp = 1

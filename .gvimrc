@@ -25,7 +25,22 @@ function! s:SetHighlightForTags()
 
 endfunction
 
-if has("gui_macvim")
-    call s:SetHighlightForTags()
+if has("gui_gtk2")
+    set guifont=Inconsolata\ 15
+elseif has("gui_macvim")
+    set guifont=Menlo\ for\ Powerline:h15
+
     macmenu &File.New\ Tab key=<nop>
+
+    "Save and return to Normal Mode
+    iunmenu File.Save
+    imenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>
+elseif if has("gui_vimr")
+    set guifont=Menlo\ Regular\ for\ Powerline:h15
+elseif has("gui_win32")
+    set guifont=Consolas:h15:cANSI
 endif
+
+syntax enable
+set background=dark
+colorscheme solarized
