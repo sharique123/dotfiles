@@ -45,6 +45,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'ivalkeen/vim-ctrlp-tjump'
 NeoBundle 'FelikZ/ctrlp-py-matcher'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'MartinLafreniere/vim-PairTools'
@@ -278,6 +279,8 @@ let g:ctrlp_buftag_types = {
             \ }
 
 nmap <c-t> :CtrlPBufTag<CR>
+nnoremap <c-]> :CtrlPtjump<cr>
+vnoremap <c-]> :CtrlPtjumpVisual<cr>
 
 " ------ Yggdroot/indentLine
 let g:indentLine_char = '┆'
