@@ -64,7 +64,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'vim-scripts/actionscript.vim--Leider'
 NeoBundle 'vim-scripts/ActionScript-3-Omnicomplete'
 NeoBundle 'xolox/vim-misc'
-NeoBundle 'ap/vim-css-color'
+NeoBundle 'lilydjwg/colorizer'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'vim-scripts/matchit.zip'
 NeoBundle 'terryma/vim-multiple-cursors'
@@ -278,6 +278,7 @@ let g:ctrlp_buftag_types = {
             \ 'actionscript' : '--language-force=actionscript'
             \ }
 
+let g:ctrlp_tjump_only_silent = 1
 nmap <c-t> :CtrlPBufTag<CR>
 nnoremap <c-]> :CtrlPtjump<cr>
 vnoremap <c-]> :CtrlPtjumpVisual<cr>
