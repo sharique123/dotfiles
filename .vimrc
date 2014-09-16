@@ -70,6 +70,8 @@ NeoBundle 'vim-scripts/matchit.zip'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'kshenoy/vim-signature'
 NeoBundle 'svermeulen/vim-easyclip'
+NeoBundle 'sheerun/vim-polyglot'
+NeoBundle 'toyamarinyon/vim-swift'
 
 call neobundle#end()
 
@@ -228,6 +230,28 @@ let g:neocomplete#sources.cs = ['omni']
 
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" ------ kein/rainbow_parentheses
+"Parentheses colours using Solarized
+let g:rbpt_colorpairs = [
+            \ [ '13', '#6c71c4'],
+            \ [ '5',  '#d33682'],
+            \ [ '1',  '#dc322f'],
+            \ [ '9',  '#cb4b16'],
+            \ [ '3',  '#b58900'],
+            \ [ '2',  '#859900'],
+            \ [ '6',  '#2aa198'],
+            \ [ '4',  '#268bd2'],
+            \ ]
+
+" Enable rainbow parentheses for all buffers
+augroup rainbow_parentheses
+    au!
+    au VimEnter * RainbowParenthesesActivate
+    au BufEnter * RainbowParenthesesLoadRound
+    au BufEnter * RainbowParenthesesLoadSquare
+    au BufEnter * RainbowParenthesesLoadBraces
+augroup END
 
 " ------ godlygeek/tabular
 nmap <leader>a= :Tabularize /=<CR>
