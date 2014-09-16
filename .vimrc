@@ -126,6 +126,9 @@ set smartcase
 set magic
 set hlsearch
 
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
 " Mapping <c-l> to clear highlighting and redraw
 nnoremap <C-L> :nohls<CR><C-L>
 inoremap <C-L> <C-O>:nohls<CR>
