@@ -72,6 +72,7 @@ NeoBundle 'kshenoy/vim-signature'
 NeoBundle 'svermeulen/vim-easyclip'
 NeoBundle 'sheerun/vim-polyglot'
 NeoBundle 'toyamarinyon/vim-swift'
+NeoBundle 'embear/vim-localvimrc'
 
 call neobundle#end()
 
@@ -452,6 +453,7 @@ function CleanActionScript()
     silent! %s/(\s/(/pg
     silent! %s/\s)/)/pg
     silent! %s/if(\s*\([^)]*\))\s*/if (\1) /pg
+    silent! %s/\([=/&-*%|]\)(/\1 (/pg
 
     silent! %s/)\s*\n\s*{/) {/pg
     silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
