@@ -72,5 +72,6 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 eval "$(direnv hook $0)"
+eval $(boot2docker shellinit)
 
 compinit
