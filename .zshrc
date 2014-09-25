@@ -47,6 +47,7 @@ alias gl='git smart-log'
 alias gm='git smart-merge'
 alias gs='git status --short'
 alias grh='git reset --hard'
+alias ccat='highlight -O ansi'
 
 alias tmux="TERM=screen-256color-bce tmux"
 unalias run-help
@@ -54,7 +55,6 @@ autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
 
 source ~/.profile
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Customize to your needs...
 export EDITOR=vim
@@ -63,8 +63,7 @@ export GOPATH=$HOME/Projects/go
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.7)"
 
-export PATH=/Users/brendanjerwin/.rvm/gems/ruby-1.9.3-p194/bin:/Users/brendanjerwin/.rvm/gems/ruby-1.9.3-p194@global/bin:/Users/brendanjerwin/.rvm/rubies/ruby-1.9.3-p194/bin:/Users/brendanjerwin/.rvm/bin:/usr/local/heroku/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/brendanjerwin/bin
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH=$PATH:/usr/local/heroku/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin
 export PATH=$PATH:$HOME/Projects/go/bin
 export PATH=$PATH:.
 
@@ -72,6 +71,8 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 eval "$(direnv hook $0)"
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 eval $(boot2docker shellinit)
 
 compinit
