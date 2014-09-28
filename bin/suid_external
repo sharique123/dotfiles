@@ -1,0 +1,2 @@
+#! /bin/sh
+sudo mount -t HFS -o nodev,noatime -u /dev/disk1s2 /Volumes/External

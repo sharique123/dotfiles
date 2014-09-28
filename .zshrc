@@ -76,3 +76,6 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 eval $(boot2docker shellinit)
 
 compinit
+
+PERL_MB_OPT="--install_base \"/Users/brendanjerwin/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/brendanjerwin/perl5"; export PERL_MM_OPT;

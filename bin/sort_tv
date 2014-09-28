@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+ssh vizzini.florin.mobi "/Volumes/Video\ Processing/Tools/sort_tv"

@@ -1,0 +1,23 @@
+#! /bin/bash
+echo "Before:"
+ifconfig en1 | grep ether
+sudo /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -z
+echo "Disconnected Airport. Now we have to wait 10 seconds for something to settle down or something..."
+sleep 5
+echo "5 more to go..."
+sleep 3
+echo "2"
+sleep 1
+echo "1"
+sleep 1
+echo "0! - Setting MAC address."
+sudo ifconfig en1 ether A4:67:06:4C:70:09
+sudo ifconfig en1 lladdr A4:67:06:4C:70:09
+sudo networksetup -setairportpower en1 off
+sudo networksetup -setairportpower en1 on
+echo "After:"
+ifconfig en1 | grep ether
+echo
+echo "'Clear' to go!"
+
+#r3moteaxxes
