@@ -57,6 +57,7 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 source ~/.profile
 
 # Customize to your needs...
+export HAXE_STD_PATH="/usr/local/lib/haxe/std"
 export EDITOR=vim
 export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home
 export GOPATH=$HOME/Projects/go
@@ -65,6 +66,7 @@ export JAVA_HOME="$(/usr/libexec/java_home -v 1.7)"
 
 export PATH=$PATH:/usr/local/heroku/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin
 export PATH=$PATH:$HOME/Projects/go/bin
+export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:.
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
