@@ -10,6 +10,6 @@ brew install boot2docker
 brew install mosh
 brew install rbenv rbenv-gem-rehash ruby-build
 rbenv install 2.1.3
-brew cask install istat-menus iterm2 sqwiggle virtualbox xquartz
+brew cask install istat-menus iterm2 sqwiggle virtualbox xquartz trim-enabler
 open ~/.dotfiles/schemes/*.itermcolors
 boot2docker init
