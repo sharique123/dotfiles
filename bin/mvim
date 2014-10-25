@@ -36,7 +36,7 @@ binary="$VIM_APP_DIR/MacVim.app/Contents/MacOS/Vim"
 
 name="`basename "$0"`"
 gui=
-opts=
+opts="--servername VIM"
 
 # GUI mode, implies forking
 case "$name" in m*|g*|rg*) gui=true ;; esac

@@ -28,9 +28,13 @@ NeoBundle 'Shougo/vimproc.vim', {
             \     'unix' : 'make -f make_unix.mak',
             \    },
             \ }
-NeoBundle 'shougo/neocomplete.vim'
-NeoBundle 'shougo/neosnippet.vim'
-NeoBundle 'shougo/neosnippet-snippets'
+NeoBundle 'Valloric/YouCompleteMe', {
+      \ 'build' : {
+      \     'mac' : './install.sh',
+      \    },
+      \ }
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'honza/vim-snippets'
 NeoBundle 'rizzatti/dash.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
 if !has("gui_vimr")
@@ -45,7 +49,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'ivalkeen/vim-ctrlp-tjump'
+"NeoBundle 'ivalkeen/vim-ctrlp-tjump'
 NeoBundle 'FelikZ/ctrlp-py-matcher'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'MartinLafreniere/vim-PairTools'
@@ -65,7 +69,6 @@ NeoBundle 'vim-scripts/actionscript.vim--Leider'
 NeoBundle 'vim-scripts/ActionScript-3-Omnicomplete'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'lilydjwg/colorizer'
-NeoBundle 'spolu/dwm.vim'
 NeoBundle 'vim-scripts/matchit.zip'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'kshenoy/vim-signature'
@@ -73,6 +76,9 @@ NeoBundle 'svermeulen/vim-easyclip'
 NeoBundle 'sheerun/vim-polyglot'
 NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'embear/vim-localvimrc'
+NeoBundle 'jdonaldson/vaxe'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'Floobits/floobits-vim'
 
 call neobundle#end()
 
@@ -116,6 +122,7 @@ set sessionoptions-=help
 set autoindent
 set smartindent
 set smarttab
+set autowrite
 
 let g:session_autoload = 0
 
@@ -128,6 +135,7 @@ set wildchar=<Tab> wildmenu wildmode=full
 set smartcase
 set magic
 set hlsearch
+highlight Pmenu ctermfg=2 ctermbg=3 guifg=#586e75 guibg=#eee8d5
 
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
@@ -148,6 +156,9 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+
+" ------ majutsushi/tagbar
+noremap <leader>tb :TagbarOpenAutoClose<cr>
 
 " ------ shougo/unite.vim
 nnoremap <D-F> :Unite grep:.<cr>
@@ -207,33 +218,22 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-" ------ shougo/neocomplete.vim
-" Use neocomplete.
-let g:acp_enableAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
-" Don't Use smartcase.
-let g:neocomplete#enable_smart_case = 0
-let g:neocomplete#enable_auto_close_preview = 0
-let g:neocomplete#enable_refresh_always = 1
-let g:neocomplete#enable_cursor_hold_i = 1
-
-inoremap <expr> <c-k> pumvisible() ? "\<c-p>":"\<c-x><c-p>"
-inoremap <expr> <c-j> pumvisible() ? "\<c-n>":"\<c-x><c-p>"
-call neocomplete#custom#source('_', 'sorters', [])
-
-if !exists('g:neocomplete#sources')
-    let g:neocomplete#sources = {}
-endif
-
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-
-let g:neocomplete#sources#omni#input_patterns.cs = '.*[^;]'
-let g:neocomplete#sources.cs = ['omni']
-
+" ------ ycm
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" ------ ultisnips vs ycm
+"let g:UltiSnipsExpandTrigger = "<nop>"
+"let g:ulti_expand_or_jump_res = 0
+"function ExpandSnippetOrCarriageReturn()
+    "let snippet = UltiSnips#ExpandSnippetOrJump()
+    "if g:ulti_expand_or_jump_res > 0
+        "return snippet
+    "else
+        "return "\<CR>"
+    "endif
+"endfunction
+"inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " ------ kein/rainbow_parentheses
 "Parentheses colours using Solarized
@@ -304,16 +304,12 @@ if !has('python')
 else
     let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 endif
-let g:ctrlp_extensions = ['buffertag', 'quickfix']
+let g:ctrlp_extensions = ['quickfix']
 let g:ctrlp_buftag_ctags_bin = '/usr/local/bin/ctags'
 let g:ctrlp_buftag_types = {
-            \ 'actionscript' : '--language-force=actionscript'
+            \ 'actionscript' : '--language-force=actionscript',
+            \ 'haxe' : '--language-force=haxe'
             \ }
-
-let g:ctrlp_tjump_only_silent = 1
-nmap <c-t> :CtrlPBufTag<CR>
-nnoremap <c-]> :CtrlPtjump<cr>
-vnoremap <c-]> :CtrlPtjumpVisual<cr>
 
 " ------ Yggdroot/indentLine
 let g:indentLine_char = '┆'
@@ -356,6 +352,23 @@ let g:pairtools_coffee_tagwrenchhook = 'tagwrench#BuiltinNoHook'
 let g:pairtools_coffee_twexpander = 0
 let g:pairtools_coffee_tweraser = 0
 
+let g:pairtools_haxe_pairclamp = 1
+let g:pairtools_haxe_tagwrench = 0
+let g:pairtools_haxe_jigsaw = 1
+let g:pairtools_haxe_autoclose = 1
+let g:pairtools_haxe_forcepairs = 0
+let g:pairtools_haxe_closepairs = "(:),[:],{:},':',\":\""
+let g:pairtools_haxe_smartclose = 1
+let g:pairtools_haxe_smartcloserules = '\w'
+let g:pairtools_haxe_apostrophe = 0
+let g:pairtools_haxe_antimagic = 1
+let g:pairtools_haxe_antimagicfield = "Comment"
+let g:pairtools_haxe_pcexpander = 1
+let g:pairtools_haxe_pceraser = 1
+let g:pairtools_haxe_tagwrenchhook = 'tagwrench#BuiltinNoHook'
+let g:pairtools_haxe_twexpander = 0
+let g:pairtools_haxe_tweraser = 0
+
 "
 " ------ scrooloose/syntastic
 let g:syntastic_auto_jump=2
@@ -369,10 +382,12 @@ let g:syntastic_warning_symbol='⚠>'
 
 let g:syntastic_mode_map = { 'mode': 'active',
             \ "active_filetypes": [],
-            \ "passive_filetypes": ['handlebars'] }
+            \ "passive_filetypes": ['handlebars', 'haxe'] }
 
 "let g:syntastic_coffee_coffeelint_post_args = '--csv --file ~/coffeelint.json'
 let g:syntastic_actionscript_mxmlc_compiler = '/Applications/Apache\ Flex/bin/mxmlc'
+
+let g:syntastic_haxe_auto_jump=0
 
 " ------ sjl/gundo.vim
 nmap <leader>z :GundoToggle<CR>
@@ -382,32 +397,9 @@ vmap <leader>z :GundoToggle<CR>
 " ------ Chiel92/vim-autoformat
 noremap <leader>f :Autoformat<CR><CR>
 
-
-" ------ szw/vim-tags
-let g:vim_tags_auto_generate = 1
-let g:vim_tags_ctags_binary = '/usr/local/bin/ctags'
-let g:vim_tags_use_vim_dispatch = 1
-
-
-" ------ shougo/neosnippet
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-
+" ------ soramugi/auto-ctags
+let g:auto_ctags = 1
+let g:auto_ctags_bin_path = '/usr/local/bin/ctags'
 
 
 " ****** coffescript files
