@@ -63,6 +63,7 @@ export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Ho
 export GOPATH=$HOME/Projects/go
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.7)"
+export HOMEBREW_GITHUB_API_TOKEN=d25a19f2d54b8431a443f4f0c6516c1fa055ce22
 
 export PATH=$PATH:/usr/local/heroku/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin
 export PATH=$PATH:$HOME/Projects/go/bin
