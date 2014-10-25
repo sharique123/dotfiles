@@ -1,6 +1,6 @@
 #! /usr/bin/env sh
 curl -L http://install.ohmyz.sh | sh
-brew install zsh-syntax-highlighting
+brew install zsh-syntax-highlighting zsh-completions
 cp ~/.dotfiles/fonts/* ~/Library/Fonts/
 brew install caskroom/cask/brew-cask
 brew install git hub direnv git-extras

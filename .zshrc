@@ -30,7 +30,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew git-extras npm osx pip vagrant colorize colored-man compleat)
+plugins=(git-remote-branch gitfast brew npm osx pip vagrant colorize colored-man compleat)
 
 source $ZSH/oh-my-zsh.sh
 #options
