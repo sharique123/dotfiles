@@ -30,7 +30,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew git-extras npm osx pip vagrant colorize colored-man compleat)
+plugins=(git-remote-branch gitfast brew npm osx pip vagrant colorize colored-man compleat)
 
 source $ZSH/oh-my-zsh.sh
 #options
@@ -57,11 +57,13 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 source ~/.profile
 
 # Customize to your needs...
+export HAXE_STD_PATH="/usr/local/lib/haxe/std"
 export EDITOR=vim
 export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home
 export GOPATH=$HOME/Projects/go
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.7)"
+export HOMEBREW_GITHUB_API_TOKEN=d25a19f2d54b8431a443f4f0c6516c1fa055ce22
 
 export PATH=$PATH:/usr/local/heroku/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin
 export PATH=$PATH:$HOME/Projects/go/bin
