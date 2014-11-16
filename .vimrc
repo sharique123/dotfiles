@@ -157,6 +157,9 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
+" smart help
+command! -nargs=1 -complete=help Help if &ft=~"help" | help <args> | else | tab help <args> | endif
+
 " ------ majutsushi/tagbar
 noremap <leader>tb :TagbarOpenAutoClose<cr>
 
