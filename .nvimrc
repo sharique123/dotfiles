@@ -61,7 +61,6 @@ Plug 'Floobits/floobits-neovim'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] }
 Plug 'justinmk/vim-gtfo'
-Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
