@@ -77,6 +77,7 @@ eval "$(direnv hook $0)"
 export RBENV_ROOT=/usr/local/var/rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 eval $(boot2docker shellinit)
+eval $(dvm env)
 
 compinit
 

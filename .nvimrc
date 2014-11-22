@@ -1,14 +1,14 @@
 set nocompatible               " Be iMproved
 let mapleader = "\\"
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !mkdir -p ~/.vim/autoload
-    silent !curl -fLo ~/.vim/autoload/plug.vim
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall
+if empty(glob('~/.nvim/autoload/plug.vim'))
+  silent !mkdir -p ~/.nvim/autoload
+  silent !curl -fLo ~/.nvim/autoload/plug.vim
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin('~/.vim/bundle')
+call plug#begin('~/.nvim/bundle')
 
 Plug 'tpope/vim-sensible'
 Plug 'shougo/unite.vim'
@@ -57,18 +57,25 @@ Plug 'toyamarinyon/vim-swift'
 Plug 'embear/vim-localvimrc'
 Plug 'jdonaldson/vaxe'
 Plug 'majutsushi/tagbar'
-Plug 'Floobits/floobits-vim'
+Plug 'Floobits/floobits-neovim'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] }
+Plug 'justinmk/vim-gtfo'
+Plug 'edkolev/tmuxline.vim'
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
-if has("gui_gtk2")
-    set guifont=Inconsolata\ 15
-elseif has("gui_macvim") || has("gui_vimr")
-    set guifont=Menlo\ for\ Powerline:h15
-elseif has("gui_win32")
-    set guifont=Consolas:h15:cANSI
+if has("gui_running")
+    if has("gui_gtk2")
+        set guifont=Inconsolata\ 15
+    elseif has("gui_macvim")
+        set guifont=Menlo\ for\ Powerline:h15
+    elseif if has("gui_vimr")
+        set guifont=Menlo\ for\ Powerline:h15
+    elseif has("gui_win32")
+        set guifont=Consolas:h15:cANSI
+    endif
 endif
 
 " base editor configs
@@ -105,7 +112,13 @@ set wildchar=<Tab> wildmenu wildmode=full
 set smartcase
 set magic
 set hlsearch
-highlight Pmenu ctermfg=2 ctermbg=3 guifg=#586e75 guibg=#eee8d5
+highlight Pmenu guifg=#586e75 guibg=#eee8d5
+
+set background=dark
+" solarized options
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+colorscheme solarized
 
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
@@ -142,24 +155,24 @@ nnoremap <leader>y :<C-u>Unite history/yank<CR>
 let g:unite_source_grep_max_candidates = 200
 
 if executable('ag')
-    " Use ag in unite grep source.
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts =
-                \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
-                \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-    let g:unite_source_grep_recursive_opt = ''
+  " Use ag in unite grep source.
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts =
+  \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt = ''
 elseif executable('pt')
-    " Use pt in unite grep source.
-    " https://github.com/monochromegane/the_platinum_searcher
-    let g:unite_source_grep_command = 'pt'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-    let g:unite_source_grep_recursive_opt = ''
+  " Use pt in unite grep source.
+  " https://github.com/monochromegane/the_platinum_searcher
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack-grep')
-    " Use ack in unite grep source.
-    let g:unite_source_grep_command = 'ack-grep'
-    let g:unite_source_grep_default_opts =
-                \ '-i --no-heading --no-color -k -H'
-    let g:unite_source_grep_recursive_opt = ''
+  " Use ack in unite grep source.
+  let g:unite_source_grep_command = 'ack-grep'
+  let g:unite_source_grep_default_opts =
+  \ '-i --no-heading --no-color -k -H'
+  let g:unite_source_grep_recursive_opt = ''
 endif
 
 " ------ tpope/vim-fugative
@@ -172,12 +185,7 @@ autocmd User fugitive
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " ------ bling/vim-airline
-if has("gui_macvim") || has("gui_vimr")
-    let g:airline#extensions#tabline#enabled = 0
-else
-    let g:airline#extensions#tabline#enabled = 1
-endif
-
+let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
 let g:airline_theme='solarized'
 let g:airline_powerline_fonts = 1
@@ -253,12 +261,12 @@ nmap xx <Plug>MoveMotionLinePlug
 
 " ------ kien/ctrlp.vim
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-            \ --ignore .git
-            \ --ignore .svn
-            \ --ignore .hg
-            \ --ignore .DS_Store
-            \ --ignore "**/*.pyc"
-            \ -g ""'
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore "**/*.pyc"
+      \ -g ""'
 "let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files --exclude-standard']
 let g:ctrlp_lazy_update = 350
 let g:ctrlp_max_files = 0
@@ -363,18 +371,22 @@ vmap <leader>z :GundoToggle<CR>
 " ------ Chiel92/vim-autoformat
 noremap <leader>f :Autoformat<CR><CR>
 
+" ------- tmux
+nnoremap <silent> C-j :TmuxNavigateDown<cr>
+nnoremap <silent> C-k :TmuxNavigateUp<cr>
+
 " ------ soramugi/auto-ctags
 let g:auto_ctags = 1
 let g:auto_ctags_bin_path = '/usr/local/bin/ctags'
 
 function! RemoveWhitespace()
-    if &bin | return | endif
-    if search('\s\+$', 'n')
-        let line = line('.')
-        let col = col('.')
-        sil %s/\s\+$//ge
-        call cursor(line, col)
-    endif
+  if &bin | return | endif
+  if search('\s\+$', 'n')
+    let line = line('.')
+    let col = col('.')
+    sil %s/\s\+$//ge
+    call cursor(line, col)
+  endif
 endf
 
 " ****** coffescript files
