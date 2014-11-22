@@ -1,103 +1,74 @@
+set nocompatible               " Be iMproved
 let mapleader = "\\"
 
-if has('vim_starting')
-    set nocompatible               " Be iMproved
-
-    " Required:
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !mkdir -p ~/.vim/autoload
+    silent !curl -fLo ~/.vim/autoload/plug.vim
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
 endif
 
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
+call plug#begin('~/.vim/bundle')
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" My Bundles here:
-" Refer to |:NeoBundle-examples|.
-" Note: You don't set neobundle setting in .gvimrc!
-
-NeoBundle 'tpope/vim-sensible'
-NeoBundle 'shougo/unite.vim'
-NeoBundle 'Shougo/vimproc.vim', {
-            \ 'build' : {
-            \     'windows' : 'tools\\update-dll-mingw',
-            \     'cygwin' : 'make -f make_cygwin.mak',
-            \     'mac' : 'make -f make_mac.mak',
-            \     'unix' : 'make -f make_unix.mak',
-            \    },
-            \ }
-NeoBundle 'Valloric/YouCompleteMe', {
-      \ 'build' : {
-      \     'mac' : './install.sh',
-      \    },
-      \ }
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'rizzatti/dash.vim'
-NeoBundle 'kien/rainbow_parentheses.vim'
+Plug 'tpope/vim-sensible'
+Plug 'shougo/unite.vim'
+Plug 'Shougo/vimproc.vim', { 'do': 'make -f make_mac.mak' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'SirVer/ultisnips'
+Plug 'rizzatti/dash.vim'
+Plug 'kien/rainbow_parentheses.vim'
 if !has("gui_vimr")
-    NeoBundle 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree'
 endif
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'kien/ctrlp.vim'
-"NeoBundle 'ivalkeen/vim-ctrlp-tjump'
-NeoBundle 'FelikZ/ctrlp-py-matcher'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'MartinLafreniere/vim-PairTools'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'kossnocorp/janitor.vim'
-NeoBundle 'matze/vim-move'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'kana/vim-textobj-syntax'
-NeoBundle 'terryma/vim-expand-region'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'bronson/vim-trailing-whitespace'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'Chiel92/vim-autoformat'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'vim-scripts/actionscript.vim--Leider'
-NeoBundle 'vim-scripts/ActionScript-3-Omnicomplete'
-NeoBundle 'xolox/vim-misc'
-NeoBundle 'lilydjwg/colorizer'
-NeoBundle 'vim-scripts/matchit.zip'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'kshenoy/vim-signature'
-NeoBundle 'svermeulen/vim-easyclip'
-NeoBundle 'sheerun/vim-polyglot'
-NeoBundle 'toyamarinyon/vim-swift'
-NeoBundle 'embear/vim-localvimrc'
-NeoBundle 'jdonaldson/vaxe'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'Floobits/floobits-vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/syntastic'
+Plug 'altercation/vim-colors-solarized'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-repeat'
+Plug 'kien/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'airblade/vim-gitgutter'
+Plug 'MartinLafreniere/vim-PairTools'
+Plug 'godlygeek/tabular'
+Plug 'kossnocorp/janitor.vim'
+Plug 'matze/vim-move'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-syntax'
+Plug 'terryma/vim-expand-region'
+Plug 'Yggdroot/indentLine'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'sjl/gundo.vim'
+Plug 'rking/ag.vim'
+Plug 'Chiel92/vim-autoformat'
+Plug 'kchmck/vim-coffee-script'
+Plug 'vim-scripts/actionscript.vim--Leider'
+Plug 'vim-scripts/ActionScript-3-Omnicomplete'
+Plug 'xolox/vim-misc'
+Plug 'lilydjwg/colorizer'
+Plug 'vim-scripts/matchit.zip'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'kshenoy/vim-signature'
+Plug 'svermeulen/vim-easyclip'
+Plug 'sheerun/vim-polyglot'
+Plug 'toyamarinyon/vim-swift'
+Plug 'embear/vim-localvimrc'
+Plug 'jdonaldson/vaxe'
+Plug 'majutsushi/tagbar'
+Plug 'Floobits/floobits-vim'
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] }
 
-call neobundle#end()
+call plug#end()
 
-" Required:
-filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-
-if has("gui_running")
-    if has("gui_gtk2")
-        set guifont=Inconsolata\ 15
-    elseif has("gui_macvim")
-        set guifont=Menlo\ for\ Powerline:h15
-    elseif if has("gui_vimr")
-        set guifont=Menlo\ for\ Powerline:h15
-    elseif has("gui_win32")
-        set guifont=Consolas:h15:cANSI
-    endif
+if has("gui_gtk2")
+    set guifont=Inconsolata\ 15
+elseif has("gui_macvim") || has("gui_vimr")
+    set guifont=Menlo\ for\ Powerline:h15
+elseif has("gui_win32")
+    set guifont=Consolas:h15:cANSI
 endif
 
 " base editor configs
@@ -171,24 +142,24 @@ nnoremap <leader>y :<C-u>Unite history/yank<CR>
 let g:unite_source_grep_max_candidates = 200
 
 if executable('ag')
-  " Use ag in unite grep source.
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts =
-  \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
-  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-  let g:unite_source_grep_recursive_opt = ''
+    " Use ag in unite grep source.
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts =
+                \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+                \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+    let g:unite_source_grep_recursive_opt = ''
 elseif executable('pt')
-  " Use pt in unite grep source.
-  " https://github.com/monochromegane/the_platinum_searcher
-  let g:unite_source_grep_command = 'pt'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
+    " Use pt in unite grep source.
+    " https://github.com/monochromegane/the_platinum_searcher
+    let g:unite_source_grep_command = 'pt'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack-grep')
-  " Use ack in unite grep source.
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts =
-  \ '-i --no-heading --no-color -k -H'
-  let g:unite_source_grep_recursive_opt = ''
+    " Use ack in unite grep source.
+    let g:unite_source_grep_command = 'ack-grep'
+    let g:unite_source_grep_default_opts =
+                \ '-i --no-heading --no-color -k -H'
+    let g:unite_source_grep_recursive_opt = ''
 endif
 
 " ------ tpope/vim-fugative
@@ -201,7 +172,12 @@ autocmd User fugitive
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " ------ bling/vim-airline
-let g:airline#extensions#tabline#enabled = 1
+if has("gui_macvim") || has("gui_vimr")
+    let g:airline#extensions#tabline#enabled = 0
+else
+    let g:airline#extensions#tabline#enabled = 1
+endif
+
 set laststatus=2
 let g:airline_theme='solarized'
 let g:airline_powerline_fonts = 1
@@ -277,12 +253,12 @@ nmap xx <Plug>MoveMotionLinePlug
 
 " ------ kien/ctrlp.vim
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-      \ --ignore .git
-      \ --ignore .svn
-      \ --ignore .hg
-      \ --ignore .DS_Store
-      \ --ignore "**/*.pyc"
-      \ -g ""'
+            \ --ignore .git
+            \ --ignore .svn
+            \ --ignore .hg
+            \ --ignore .DS_Store
+            \ --ignore "**/*.pyc"
+            \ -g ""'
 "let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files --exclude-standard']
 let g:ctrlp_lazy_update = 350
 let g:ctrlp_max_files = 0
@@ -392,13 +368,13 @@ let g:auto_ctags = 1
 let g:auto_ctags_bin_path = '/usr/local/bin/ctags'
 
 function! RemoveWhitespace()
-  if &bin | return | endif
-  if search('\s\+$', 'n')
-    let line = line('.')
-    let col = col('.')
-    sil %s/\s\+$//ge
-    call cursor(line, col)
-  endif
+    if &bin | return | endif
+    if search('\s\+$', 'n')
+        let line = line('.')
+        let col = col('.')
+        sil %s/\s\+$//ge
+        call cursor(line, col)
+    endif
 endf
 
 " ****** coffescript files
