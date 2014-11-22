@@ -34,7 +34,6 @@ NeoBundle 'Valloric/YouCompleteMe', {
       \    },
       \ }
 NeoBundle 'SirVer/ultisnips'
-NeoBundle 'honza/vim-snippets'
 NeoBundle 'rizzatti/dash.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
 if !has("gui_vimr")
@@ -225,19 +224,6 @@ let g:airline_symbols.linenr = ''
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-" ------ ultisnips vs ycm
-"let g:UltiSnipsExpandTrigger = "<nop>"
-"let g:ulti_expand_or_jump_res = 0
-"function ExpandSnippetOrCarriageReturn()
-    "let snippet = UltiSnips#ExpandSnippetOrJump()
-    "if g:ulti_expand_or_jump_res > 0
-        "return snippet
-    "else
-        "return "\<CR>"
-    "endif
-"endfunction
-"inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
-
 " ------ kein/rainbow_parentheses
 "Parentheses colours using Solarized
 let g:rbpt_colorpairs = [
@@ -325,7 +311,8 @@ let g:dash_map = {
             \ 'ruby'       : 'rails',
             \ 'python'     : 'python2',
             \ 'javascript' : 'backbone',
-            \ 'cs'         : 'net'
+            \ 'cs'         : 'net',
+            \ 'haxe'       : ['haxe', 'actionscript']
             \ }
 
 " ------ scrooloose/nerdtree
@@ -404,9 +391,18 @@ noremap <leader>f :Autoformat<CR><CR>
 let g:auto_ctags = 1
 let g:auto_ctags_bin_path = '/usr/local/bin/ctags'
 
+function! RemoveWhitespace()
+  if &bin | return | endif
+  if search('\s\+$', 'n')
+    let line = line('.')
+    let col = col('.')
+    sil %s/\s\+$//ge
+    call cursor(line, col)
+  endif
+endf
 
 " ****** coffescript files
-function OnCoffeeScript()
+function! OnCoffeeScript()
     setlocal tabstop=2
     setlocal shiftwidth=2
     setlocal softtabstop=2
@@ -444,7 +440,7 @@ autocmd BufRead,BufNewFile *.as set filetype=actionscript
 let tlist_actionscript_settings = 'actionscript;c:class;f:method;p:property;v:variable'
 
 autocmd BufRead,BufNewFile *.as map <buffer> <leader>f :call CleanActionScript()<CR>
-function CleanActionScript()
+function! CleanActionScript()
     let l:save_cursor = getpos('.')
 
     "if(true )doSomething( param )
@@ -471,5 +467,39 @@ function CleanActionScript()
 
     call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
     call setpos('.', l:save_cursor)
+    Autoformat()
+endfunction
+
+"****** Haxe
+autocmd BufRead,BufNewFile *.hx map <buffer> <leader>f :call CleanHaxe()<CR>
+function! CleanHaxe()
+    let l:save_cursor = getpos('.')
+
+    "if(true )doSomething( param )
+    silent! %s/\s*(/(/pg
+    silent! %s/(\s/(/pg
+    silent! %s/\s)/)/pg
+    silent! %s/if(\s*\([^)]*\))\s*/if (\1) /pg
+    silent! %s/\([=/&-*%|]\)(/\1 (/pg
+
+    silent! %s/)\s*\n\s*{/) {/pg
+    silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
+    silent! %s/}\s*\n\s*else if (/} else if (/pg
+    silent! %s/}else/} else/pg
+    silent! %s/else{/else {/pg
+
+    silent! %s/try\s*\n\s*{/try {/pg
+    silent! %s/}\s*\n\s*catch/} catch/pg
+
+    silent! %s/function\(.*\)\n\s*{/function\1 {/pg
+
+    " remove useless heading comments
+    silent! %s/\/\**\n\s*\* Function.*\n\s*\**\///pg
+    silent! %s/\/\**\n\s*\* Class.*\n\s*\**\///pg
+
+    call RemoveWhitespace()
+    call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
+    call setpos('.', l:save_cursor)
+    :retab
     Autoformat()
 endfunction
