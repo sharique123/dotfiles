@@ -11,6 +11,7 @@ endif
 call plug#begin('~/.vim/bundle')
 
 Plug 'tpope/vim-sensible'
+Plug 'rstacruz/vim-opinion'
 Plug 'shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make -f make_mac.mak' }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
