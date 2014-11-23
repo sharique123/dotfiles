@@ -12,6 +12,9 @@ call plug#begin('~/.nvim/bundle')
 
 Plug 'tpope/vim-sensible'
 Plug 'rstacruz/vim-opinion'
+Plug 'tpope/vim-eunuch'
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
 Plug 'shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make -f make_mac.mak' }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
@@ -139,6 +142,9 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+
+noremap <leader>tn :tabnext<cr>
+noremap <leader>tp :tabprevious<cr>
 
 " smart help
 command! -nargs=1 -complete=help Help if &ft=~"help" | help <args> | else | tab help <args> | endif

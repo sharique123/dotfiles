@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
+ZSH_THEME="nicoulaj"
 DEFAULT_USER="brendanjerwin"
 
 
@@ -34,9 +34,10 @@ plugins=(git-remote-branch gitfast brew npm osx pip vagrant colorize colored-man
 
 source $ZSH/oh-my-zsh.sh
 #options
+export PROMPT="%(0?.%{%{%}%}.%{%{%}%})%{%{%}%}%30<..<${vcs_info_msg_0_%%.}%<<%(!.❯❯❯.❯)%{%{%}%}%{%{%}%}"
 setopt CSH_NULL_GLOB
 
-
+eval `ssh-agent -s`
 # Example aliases
 alias zshrc="$EDITOR ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
