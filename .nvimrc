@@ -18,6 +18,8 @@ Plug 'mattn/webapi-vim'
 Plug 'shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make -f make_mac.mak' }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'marijnh/tern_for_vim', { 'do': 'npm install'}
+Plug 'othree/tern_for_vim_coffee', { 'do': 'npm install tern-coffee'}
 Plug 'SirVer/ultisnips'
 Plug 'rizzatti/dash.vim'
 Plug 'kien/rainbow_parentheses.vim'
@@ -34,6 +36,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'DavidEGx/ctrlp-smarttabs'
 Plug 'airblade/vim-gitgutter'
 Plug 'MartinLafreniere/vim-PairTools'
 Plug 'godlygeek/tabular'
@@ -66,6 +69,8 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] }
 Plug 'justinmk/vim-gtfo'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'wellle/tmux-complete.vim'
+Plug 'cespare/vim-toml'
 
 call plug#end()
 
@@ -145,9 +150,13 @@ noremap <Right> <NOP>
 
 noremap <leader>tn :tabnext<cr>
 noremap <leader>tp :tabprevious<cr>
+noremap <leader>tt :CtrlPSmartTabs<cr>
 
 " smart help
 command! -nargs=1 -complete=help Help if &ft=~"help" | help <args> | else | tab help <args> | endif
+
+" ------ wellle/tmux-complete.vim
+let g:tmuxcomplete#trigger = 'omnifunc'
 
 " ------ majutsushi/tagbar
 noremap <leader>tb :TagbarOpenAutoClose<cr>
@@ -283,7 +292,7 @@ if !has('python')
 else
     let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 endif
-let g:ctrlp_extensions = ['quickfix']
+let g:ctrlp_extensions = ['quickfix', 'smarttabs']
 let g:ctrlp_buftag_ctags_bin = '/usr/local/bin/ctags'
 let g:ctrlp_buftag_types = {
             \ 'actionscript' : '--language-force=actionscript',
@@ -361,10 +370,10 @@ let g:syntastic_error_symbol='✗>'
 let g:syntastic_warning_symbol='⚠>'
 
 let g:syntastic_mode_map = { 'mode': 'active',
-            \ "active_filetypes": [],
+            \ "active_filetypes": ['javascript'],
             \ "passive_filetypes": ['handlebars', 'haxe'] }
 
-"let g:syntastic_coffee_coffeelint_post_args = '--csv --file ~/coffeelint.json'
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_actionscript_mxmlc_compiler = '/Applications/Apache\ Flex/bin/mxmlc'
 
 let g:syntastic_haxe_auto_jump=0
@@ -394,6 +403,13 @@ function! RemoveWhitespace()
     call cursor(line, col)
   endif
 endf
+
+" ****** javascript files
+function! OnJavascript()
+  noremap <buffer> K :TernDoc<cr>
+  noremap <buffer> <leader>rr :TernRename<cr>
+endf
+autocmd BufRead,BufNewFile *.js call OnJavascript()
 
 " ****** coffescript files
 function! OnCoffeeScript()
