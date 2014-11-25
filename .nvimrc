@@ -21,7 +21,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install'}
 Plug 'othree/tern_for_vim_coffee', { 'do': 'npm install tern-coffee'}
 Plug 'SirVer/ultisnips'
-Plug 'rizzatti/dash.vim'
+Plug 'brendanjerwin/dash.vim'
 Plug 'kien/rainbow_parentheses.vim'
 if !has("gui_vimr")
     Plug 'scrooloose/nerdtree'
@@ -406,7 +406,7 @@ endf
 
 " ****** javascript files
 function! OnJavascript()
-  noremap <buffer> K :TernDoc<cr>
+  "noremap <buffer> K :TernDoc<cr>
   noremap <buffer> <leader>rr :TernRename<cr>
 endf
 autocmd BufRead,BufNewFile *.js call OnJavascript()
