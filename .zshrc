@@ -89,3 +89,7 @@ PERL_MB_OPT="--install_base \"/Users/brendanjerwin/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/brendanjerwin/perl5"; export PERL_MM_OPT;
 
 source /Users/brendanjerwin/.iterm2_shell_integration.zsh
+
+unalias run-help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/help

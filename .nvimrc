@@ -17,7 +17,7 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make -f make_mac.mak' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer --omnisharp-completer' }
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install'}
 Plug 'othree/tern_for_vim_coffee', { 'do': 'npm install tern-coffee'}
 Plug 'SirVer/ultisnips'
@@ -46,7 +46,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-syntax'
 Plug 'terryma/vim-expand-region'
 Plug 'Yggdroot/indentLine'
-Plug 'bronson/vim-trailing-whitespace'
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'sjl/gundo.vim'
 Plug 'rking/ag.vim'
 Plug 'Chiel92/vim-autoformat'
@@ -389,6 +389,10 @@ noremap <leader>f :Autoformat<CR><CR>
 " ------- tmux
 nnoremap <silent> C-j :TmuxNavigateDown<cr>
 nnoremap <silent> C-k :TmuxNavigateUp<cr>
+
+
+" ------ ntpeters/vim-better-whitespace
+let g:better_whitespace_filetypes_blacklist=['vim-plug']
 
 " ------ soramugi/auto-ctags
 let g:auto_ctags = 1

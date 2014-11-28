@@ -3,7 +3,7 @@
 	name = Brendan Erwin
 [core]
 	autocrlf = input
-	editor = vim
+	editor = nvim
 	excludesfile = /Users/brendanjerwin/.gitignore_global
 [color]
 	status = auto
