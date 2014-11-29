@@ -27,7 +27,7 @@ if !has("gui_vimr")
     Plug 'scrooloose/nerdtree'
 endif
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/syntastic'
+Plug 'brendanjerwin/neomake', {'branch': 'eslint'}
 Plug 'altercation/vim-colors-solarized'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
@@ -154,6 +154,9 @@ noremap <leader>tt :CtrlPSmartTabs<cr>
 
 " smart help
 command! -nargs=1 -complete=help Help if &ft=~"help" | help <args> | else | tab help <args> | endif
+
+" ------ neomake
+autocmd BufWritePost *.py,*.js Neomake
 
 " ------ wellle/tmux-complete.vim
 let g:tmuxcomplete#trigger = 'omnifunc'
@@ -360,23 +363,23 @@ let g:pairtools_haxe_tweraser = 0
 
 "
 " ------ scrooloose/syntastic
-let g:syntastic_auto_jump=2
-let g:syntastic_check_on_open=1
-let g:syntastic_quiet_messages = {'level': 'warnings'}
-let g:syntastic_auto_loc_list=1
-let g:syntastic_echo_current_error=1
+"let g:syntastic_auto_jump=2
+"let g:syntastic_check_on_open=1
+"let g:syntastic_quiet_messages = {'level': 'warnings'}
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_echo_current_error=1
 
-let g:syntastic_error_symbol='✗>'
-let g:syntastic_warning_symbol='⚠>'
+"let g:syntastic_error_symbol='✗>'
+"let g:syntastic_warning_symbol='⚠>'
 
-let g:syntastic_mode_map = { 'mode': 'active',
-            \ "active_filetypes": ['javascript'],
-            \ "passive_filetypes": ['handlebars', 'haxe'] }
+"let g:syntastic_mode_map = { 'mode': 'active',
+            "\ "active_filetypes": ['javascript'],
+            "\ "passive_filetypes": ['handlebars', 'haxe'] }
 
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_actionscript_mxmlc_compiler = '/Applications/Apache\ Flex/bin/mxmlc'
+"let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_actionscript_mxmlc_compiler = '/Applications/Apache\ Flex/bin/mxmlc'
 
-let g:syntastic_haxe_auto_jump=0
+"let g:syntastic_haxe_auto_jump=0
 
 " ------ sjl/gundo.vim
 nmap <leader>z :GundoToggle<CR>
