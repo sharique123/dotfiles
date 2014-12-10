@@ -4,7 +4,7 @@ let mapleader = "\\"
 if empty(glob('~/.nvim/autoload/plug.vim'))
   silent !mkdir -p ~/.nvim/autoload
   silent !curl -fLo ~/.nvim/autoload/plug.vim
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
@@ -21,10 +21,10 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer --omnisha
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install'}
 Plug 'othree/tern_for_vim_coffee', { 'do': 'npm install tern-coffee'}
 Plug 'SirVer/ultisnips'
-Plug 'brendanjerwin/dash.vim'
+Plug 'rizzatti/dash.vim'
 Plug 'kien/rainbow_parentheses.vim'
 if !has("gui_vimr")
-    Plug 'scrooloose/nerdtree'
+  Plug 'scrooloose/nerdtree'
 endif
 Plug 'scrooloose/nerdcommenter'
 Plug 'brendanjerwin/neomake', {'branch': 'eslint'}
@@ -71,19 +71,21 @@ Plug 'justinmk/vim-gtfo'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/tmux-complete.vim'
 Plug 'cespare/vim-toml'
+Plug 'miyakogi/conoline.vim'
+Plug 'haya14busa/incsearch.vim'
 
 call plug#end()
 
 if has("gui_running")
-    if has("gui_gtk2")
-        set guifont=Inconsolata\ 15
-    elseif has("gui_macvim")
-        set guifont=Menlo\ for\ Powerline:h15
-    elseif if has("gui_vimr")
-        set guifont=Menlo\ for\ Powerline:h15
-    elseif has("gui_win32")
-        set guifont=Consolas:h15:cANSI
-    endif
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 15
+  elseif has("gui_macvim")
+    set guifont=Menlo\ for\ Powerline:h15
+  elseif if has("gui_vimr")
+    set guifont=Menlo\ for\ Powerline:h15
+  elseif has("gui_win32")
+    set guifont=Consolas:h15:cANSI
+  endif
 endif
 
 " base editor configs
@@ -95,7 +97,6 @@ set list
 set nobackup
 set noswapfile
 
-set cursorline
 set colorcolumn=80,120
 
 set relativenumber
@@ -131,10 +132,6 @@ colorscheme solarized
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 
-" Mapping <c-l> to clear highlighting and redraw
-nnoremap <C-L> :nohls<CR><C-L>
-inoremap <C-L> <C-O>:nohls<CR>
-
 "<esc> to clear search markers
 nnoremap <esc> :noh<return><esc>
 
@@ -154,6 +151,38 @@ noremap <leader>tt :CtrlPSmartTabs<cr>
 
 " smart help
 command! -nargs=1 -complete=help Help if &ft=~"help" | help <args> | else | tab help <args> | endif
+
+" ------ Plug 'haya14busa/incsearch.vim'
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+" :h g:incsearch#auto_nohlsearch
+set hlsearch
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+
+let g:incsearch#consistent_n_direction = 1
+let g:incsearch#magic = '\v'
+
+augroup incsearch-keymap
+  autocmd!
+  autocmd VimEnter * call s:incsearch_keymap()
+augroup END
+function! s:incsearch_keymap()
+  IncSearchNoreMap <C-f> <Over>(incsearch-scroll-f)
+  IncSearchNoreMap <C-b> <Over>(incsearch-scroll-b)
+endfunction
+
+
+" ------ miyakogi/conoline.vim
+let g:conoline_auto_enable = 1
+let g:conoline_use_colorscheme_default_normal=1
+"let g:conoline_use_colorscheme_default_insert=1
 
 " ------ neomake
 autocmd BufWritePost *.py,*.js Neomake
@@ -176,8 +205,8 @@ if executable('ag')
   " Use ag in unite grep source.
   let g:unite_source_grep_command = 'ag'
   let g:unite_source_grep_default_opts =
-  \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
-  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+        \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+        \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('pt')
   " Use pt in unite grep source.
@@ -189,16 +218,16 @@ elseif executable('ack-grep')
   " Use ack in unite grep source.
   let g:unite_source_grep_command = 'ack-grep'
   let g:unite_source_grep_default_opts =
-  \ '-i --no-heading --no-color -k -H'
+        \ '-i --no-heading --no-color -k -H'
   let g:unite_source_grep_recursive_opt = ''
 endif
 
 " ------ tpope/vim-fugative
 " Go to the Commit for a tree or blob with C
 autocmd User fugitive
-            \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-            \   nnoremap <buffer> .. :edit %:h<CR> |
-            \ endif
+      \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+      \   nnoremap <buffer> .. :edit %:h<CR> |
+      \ endif
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
@@ -209,7 +238,7 @@ let g:airline_theme='solarized'
 let g:airline_powerline_fonts = 1
 
 if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+  let g:airline_symbols = {}
 endif
 
 let g:airline_symbols.paste = 'ρ'
@@ -229,23 +258,23 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " ------ kein/rainbow_parentheses
 "Parentheses colours using Solarized
 let g:rbpt_colorpairs = [
-            \ [ '13', '#6c71c4'],
-            \ [ '5',  '#d33682'],
-            \ [ '1',  '#dc322f'],
-            \ [ '9',  '#cb4b16'],
-            \ [ '3',  '#b58900'],
-            \ [ '2',  '#859900'],
-            \ [ '6',  '#2aa198'],
-            \ [ '4',  '#268bd2'],
-            \ ]
+      \ [ '13', '#6c71c4'],
+      \ [ '5',  '#d33682'],
+      \ [ '1',  '#dc322f'],
+      \ [ '9',  '#cb4b16'],
+      \ [ '3',  '#b58900'],
+      \ [ '2',  '#859900'],
+      \ [ '6',  '#2aa198'],
+      \ [ '4',  '#268bd2'],
+      \ ]
 
 " Enable rainbow parentheses for all buffers
 augroup rainbow_parentheses
-    au!
-    au VimEnter * RainbowParenthesesActivate
-    au BufEnter * RainbowParenthesesLoadRound
-    au BufEnter * RainbowParenthesesLoadSquare
-    au BufEnter * RainbowParenthesesLoadBraces
+  au!
+  au VimEnter * RainbowParenthesesActivate
+  au BufEnter * RainbowParenthesesLoadRound
+  au BufEnter * RainbowParenthesesLoadSquare
+  au BufEnter * RainbowParenthesesLoadBraces
 augroup END
 
 " ------ godlygeek/tabular
@@ -291,16 +320,16 @@ let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_root_markers = ['.ctrlp']
 if !has('python')
-    echo 'In order to use pymatcher plugin, you need +python compiled vim'
+  echo 'In order to use pymatcher plugin, you need +python compiled vim'
 else
-    let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+  let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 endif
 let g:ctrlp_extensions = ['quickfix', 'smarttabs']
 let g:ctrlp_buftag_ctags_bin = '/usr/local/bin/ctags'
 let g:ctrlp_buftag_types = {
-            \ 'actionscript' : '--language-force=actionscript',
-            \ 'haxe' : '--language-force=haxe'
-            \ }
+      \ 'actionscript' : '--language-force=actionscript',
+      \ 'haxe' : '--language-force=haxe'
+      \ }
 
 " ------ Yggdroot/indentLine
 let g:indentLine_char = '┆'
@@ -310,20 +339,20 @@ set keywordprg=dash
 :nmap <silent> K <Plug>DashSearch
 
 let g:dash_map = {
-            \ 'ruby'       : 'rails',
-            \ 'python'     : 'python2',
-            \ 'javascript' : 'backbone',
-            \ 'cs'         : 'net',
-            \ 'haxe'       : ['haxe', 'actionscript']
-            \ }
+      \ 'ruby'       : 'rails',
+      \ 'python'     : 'python2',
+      \ 'javascript' : 'backbone',
+      \ 'cs'         : 'net',
+      \ 'haxe'       : ['haxe', 'actionscript']
+      \ }
 
 " ------ scrooloose/nerdtree
 if !has("gui_vimr")
-    nmap <leader>l :NERDTreeFind<cr>
-    nmap <leader>nt :NERDTreeToggle<cr>
-    let NERDTreeWinSize=40
-    let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$', '\.orig$']
-    let NERDTreeQuitOnOpen = 1
+  nmap <leader>l :NERDTreeFind<cr>
+  nmap <leader>nt :NERDTreeToggle<cr>
+  let NERDTreeWinSize=40
+  let NERDTreeIgnore = ['\.pyc$', '\.css$', '\.png$','\.jpg$', '\.feature.cs$', '\.orig$']
+  let NERDTreeQuitOnOpen = 1
 endif
 
 " ------ MartinLafreniere/vim-PairTools
@@ -373,8 +402,8 @@ let g:pairtools_haxe_tweraser = 0
 "let g:syntastic_warning_symbol='⚠>'
 
 "let g:syntastic_mode_map = { 'mode': 'active',
-            "\ "active_filetypes": ['javascript'],
-            "\ "passive_filetypes": ['handlebars', 'haxe'] }
+"\ "active_filetypes": ['javascript'],
+"\ "passive_filetypes": ['handlebars', 'haxe'] }
 
 "let g:syntastic_javascript_checkers = ['eslint']
 "let g:syntastic_actionscript_mxmlc_compiler = '/Applications/Apache\ Flex/bin/mxmlc'
@@ -420,33 +449,33 @@ autocmd BufRead,BufNewFile *.js call OnJavascript()
 
 " ****** coffescript files
 function! OnCoffeeScript()
-    setlocal tabstop=2
-    setlocal shiftwidth=2
-    setlocal softtabstop=2
+  setlocal tabstop=2
+  setlocal shiftwidth=2
+  setlocal softtabstop=2
 
-    setlocal foldmethod=indent
-    setlocal nofoldenable
-    setlocal expandtab
+  setlocal foldmethod=indent
+  setlocal nofoldenable
+  setlocal expandtab
 
-    setlocal colorcolumn=120
-    setlocal nobomb
+  setlocal colorcolumn=120
+  setlocal nobomb
 
-    setlocal omnifunc=syntaxcomplete#Complete
+  setlocal omnifunc=syntaxcomplete#Complete
 
-    if expand("%:p") =~ ".spec.coffee$"
-        setlocal filetype=coffee.mocha
-        map <buffer> <M-s> :w<kEnter>:call RunSpecificTestsInScreen()<CR>
-        imap <buffer> <M-s> <Esc>:w<kEnter>:call RunSpecificTestsInScreen()<CR>
-    endif
+  if expand("%:p") =~ ".spec.coffee$"
+    setlocal filetype=coffee.mocha
+    map <buffer> <M-s> :w<kEnter>:call RunSpecificTestsInScreen()<CR>
+    imap <buffer> <M-s> <Esc>:w<kEnter>:call RunSpecificTestsInScreen()<CR>
+  endif
 
-    " spec-runner
-    map <buffer> <leader>T :call RunAllTestsInScreen()<CR>
-    map <buffer> <leader>t :call RunLocalTestsInScreen()<CR>
-    map <buffer> <leader>t. :call RunSpecificTestsInScreen()<CR>
-    map <buffer> <leader>D :call DebugAllTestsInScreen()<CR>
-    map <buffer> <leader>d :call DebugLocalTestsInScreen()<CR>
-    map <buffer> <leader>d. :call DebugSpecificTestsInScreen()<CR>
-    map <buffer> <leader>tl :call RunLastTestsInScreen()<CR>
+  " spec-runner
+  map <buffer> <leader>T :call RunAllTestsInScreen()<CR>
+  map <buffer> <leader>t :call RunLocalTestsInScreen()<CR>
+  map <buffer> <leader>t. :call RunSpecificTestsInScreen()<CR>
+  map <buffer> <leader>D :call DebugAllTestsInScreen()<CR>
+  map <buffer> <leader>d :call DebugLocalTestsInScreen()<CR>
+  map <buffer> <leader>d. :call DebugSpecificTestsInScreen()<CR>
+  map <buffer> <leader>tl :call RunLastTestsInScreen()<CR>
 endfunction
 
 autocmd BufRead,BufNewFile *.coffee call OnCoffeeScript()
@@ -456,67 +485,81 @@ autocmd BufRead,BufNewFile *.coffee call OnCoffeeScript()
 autocmd BufRead,BufNewFile *.as set filetype=actionscript
 let tlist_actionscript_settings = 'actionscript;c:class;f:method;p:property;v:variable'
 
+autocmd BufEnter *.as call ActionscriptSettings()
+function! ActionscriptSettings()
+  setlocal tabstop=4
+  setlocal shiftwidth=4
+  setlocal softtabstop=4
+endfunction
+
 autocmd BufRead,BufNewFile *.as map <buffer> <leader>f :call CleanActionScript()<CR>
 function! CleanActionScript()
-    let l:save_cursor = getpos('.')
+  let l:save_cursor = getpos('.')
 
-    "if(true )doSomething( param )
-    silent! %s/\s*(/(/pg
-    silent! %s/(\s/(/pg
-    silent! %s/\s)/)/pg
-    silent! %s/if(\s*\([^)]*\))\s*/if (\1) /pg
-    silent! %s/\([=/&-*%|]\)(/\1 (/pg
+  "if(true )doSomething( param )
+  silent! %s/\s*(/(/pg
+  silent! %s/(\s/(/pg
+  silent! %s/\s)/)/pg
+  silent! %s/if(\s*\([^)]*\))\s*/if (\1) /pg
+  silent! %s/\([=/&-*%|]\)(/\1 (/pg
 
-    silent! %s/)\s*\n\s*{/) {/pg
-    silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
-    silent! %s/}\s*\n\s*else if (/} else if (/pg
-    silent! %s/}else/} else/pg
-    silent! %s/else{/else {/pg
+  silent! %s/)\s*\n\s*{/) {/pg
+  silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
+  silent! %s/}\s*\n\s*else if (/} else if (/pg
+  silent! %s/}else/} else/pg
+  silent! %s/else{/else {/pg
 
-    silent! %s/try\s*\n\s*{/try {/pg
-    silent! %s/}\s*\n\s*catch/} catch/pg
+  silent! %s/try\s*\n\s*{/try {/pg
+  silent! %s/}\s*\n\s*catch/} catch/pg
 
-    silent! %s/function\(.*\)\n\s*{/function\1 {/pg
+  silent! %s/function\(.*\)\n\s*{/function\1 {/pg
 
-    " remove useless heading comments
-    silent! %s/\/\**\n\s*\* Function.*\n\s*\**\///pg
-    silent! %s/\/\**\n\s*\* Class.*\n\s*\**\///pg
+  " remove useless heading comments
+  silent! %s/\/\**\n\s*\* Function.*\n\s*\**\///pg
+  silent! %s/\/\**\n\s*\* Class.*\n\s*\**\///pg
 
-    call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
-    call setpos('.', l:save_cursor)
-    Autoformat()
+  call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
+  call setpos('.', l:save_cursor)
+  Autoformat()
 endfunction
 
 "****** Haxe
+autocmd BufEnter *.hx call HaxeSettings()
+function! HaxeSettings()
+  setlocal tabstop=4
+  setlocal shiftwidth=4
+  setlocal softtabstop=4
+endfunction
+
 autocmd BufRead,BufNewFile *.hx map <buffer> <leader>f :call CleanHaxe()<CR>
 function! CleanHaxe()
-    let l:save_cursor = getpos('.')
+  let l:save_cursor = getpos('.')
 
-    "if(true )doSomething( param )
-    silent! %s/\s*(/(/pg
-    silent! %s/(\s/(/pg
-    silent! %s/\s)/)/pg
-    silent! %s/if(\s*\([^)]*\))\s*/if (\1) /pg
-    silent! %s/\([=/&-*%|]\)(/\1 (/pg
+  "if(true )doSomething( param )
+  silent! %s/\s*(/(/pg
+  silent! %s/(\s/(/pg
+  silent! %s/\s)/)/pg
+  silent! %s/if(\s*\([^)]*\))\s*/if (\1) /pg
+  silent! %s/\([=/&-*%|]\)(/\1 (/pg
 
-    silent! %s/)\s*\n\s*{/) {/pg
-    silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
-    silent! %s/}\s*\n\s*else if (/} else if (/pg
-    silent! %s/}else/} else/pg
-    silent! %s/else{/else {/pg
+  silent! %s/)\s*\n\s*{/) {/pg
+  silent! %s/}\s*\n\s*else\s*\n\s*{/} else {/pg
+  silent! %s/}\s*\n\s*else if (/} else if (/pg
+  silent! %s/}else/} else/pg
+  silent! %s/else{/else {/pg
 
-    silent! %s/try\s*\n\s*{/try {/pg
-    silent! %s/}\s*\n\s*catch/} catch/pg
+  silent! %s/try\s*\n\s*{/try {/pg
+  silent! %s/}\s*\n\s*catch/} catch/pg
 
-    silent! %s/function\(.*\)\n\s*{/function\1 {/pg
+  silent! %s/function\(.*\)\n\s*{/function\1 {/pg
 
-    " remove useless heading comments
-    silent! %s/\/\**\n\s*\* Function.*\n\s*\**\///pg
-    silent! %s/\/\**\n\s*\* Class.*\n\s*\**\///pg
+  " remove useless heading comments
+  silent! %s/\/\**\n\s*\* Function.*\n\s*\**\///pg
+  silent! %s/\/\**\n\s*\* Class.*\n\s*\**\///pg
 
-    call RemoveWhitespace()
-    call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
-    call setpos('.', l:save_cursor)
-    :retab
-    Autoformat()
+  call RemoveWhitespace()
+  call histdel('search', -1) " @/ isn't changed by a function, cp. |function-search-undo|
+  call setpos('.', l:save_cursor)
+  :retab
+  Autoformat()
 endfunction
