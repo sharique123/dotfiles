@@ -29,3 +29,4 @@ Finally, to install your dotfiles onto a new system:
 For more information, check out the [wiki](http://github.com/justone/dotfiles/wiki).
 
 You can also run <tt>dfm --help</tt>.
+
