@@ -1,17 +1,17 @@
 [user]
-	email = brendanjerwin@gmail.com
-	name = Brendan Erwin
+	email = sharique123@yahoo.com
+	name = Sharique Raza
 [core]
 	autocrlf = input
 	editor = nvim
-	excludesfile = /Users/brendanjerwin/.gitignore_global
+	excludesfile = /Users/sxraza/.gitignore_global
 [color]
 	status = auto
 	branch = auto
 	diff = auto
 	ui = always
 [github]
-	user = brendanjerwin
+	user = sxraza
 	token = 6d535824c6469e9d40265fc6104244a8
 [alias]
 	unstage = reset HEAD --
@@ -45,7 +45,7 @@
 	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge -dw \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 [pivotal]
 	api-token = 30813b0353eb2e73aa7e95246841fe98
-	full-name = Brendan Erwin
+	full-name = sharique raza
 	only-mine = true
 	append-name = true
 	interactive = 1

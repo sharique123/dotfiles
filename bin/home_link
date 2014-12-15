@@ -1,2 +1,2 @@
 #! /bin/bash
-sudo ssh -D 1337 brendanjerwin@vizzini.florin.mobi
+sudo ssh -D 1337 sxraza@vizzini.florin.mobi
